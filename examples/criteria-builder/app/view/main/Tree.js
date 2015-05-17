@@ -19,6 +19,14 @@ Ext.define('CriteriaBuilder.view.main.Tree', {
                 text:'Criteria',
                 href:'#sql-criteria',
                 leaf: true
+            },{
+                text:'Limit',
+                href:'#sql-limit',
+                leaf: true
+            },{
+                text:'Order By',
+                href:'#sql-order',
+                leaf: true
             }]
         },{
             text: 'DSL Examples',
@@ -34,6 +42,14 @@ Ext.define('CriteriaBuilder.view.main.Tree', {
             },{
                 text:'Adding Criteria',
                 href:'#dsl-criteria',
+                leaf: true
+            },{
+                text:'Limit',
+                href:'#dsl-limit',
+                leaf: true
+            },{
+                text:'Order By',
+                href:'#dsl-order',
                 leaf: true
             }]
         },{

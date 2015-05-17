@@ -12,10 +12,10 @@ SELECT a.address addy
 <p><strong>NOTE:</strong> When using a "select" statement, only "store" and "collection" return results will be affected.</p>
 <h2>Example</h2>
 <pre>
-var qb = new CriteriaBuilder.Builder({
+var cb = new CriteriaBuilder.Builder({
     store: mystore
 });
 var sql = 'select a.address addy, orderId, orderNumber num';
 // run
-qb.query({sql:sql});
+cb.query({sql:sql});
 </pre>

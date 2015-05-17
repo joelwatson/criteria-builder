@@ -21,10 +21,10 @@ WHERE a.address like "%Avenue%"
 </pre>
 <h2>Example</h2>
 <pre>
-var qb = new CriteriaBuilder.Builder({
+var cb = new CriteriaBuilder.Builder({
     store: mystore
 });
 var sql = 'select a.address addy, orderId, orderNumber num join user us join address a on user where a.address like "%Avenue%"';
 // run
-qb.query({sql:sql});
+cb.query({sql:sql});
 </pre>

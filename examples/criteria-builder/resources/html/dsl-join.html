@@ -1,0 +1,33 @@
+<p>If you wish to include fields from associated models in your store/collection result set, or if you want to create custom criteria based on these fields, you'll need to add a "join." This can be done via the DSL:</p>
+<pre>
+cb.join({associationName}, {associationAlias}, {ownerAssociation});
+// join on root model
+cb.join('user', 'u');
+</pre>
+<p>When defining a join, you must use the "role" of the association as the name of the join. If you wish, you can additionally define an "alias" to use for the join (see example syntax above). If you don't specify a join alias, the name of the association's role will be used as the default, and any fields or criteria that you wish to include which involve the join should use the alias</p>
+
+<h2>Context</h2>
+<p>By default, all joins will be "joined" on the root entity, which is the model defined for the store. It is possible to join on associations as well. For example, consider that we have an "Order" entity, which has a "User", which in turn has an "Address". To include the address for fields and criteria, the third "ownerAssociation" argument should be provided:</p>
+
+<pre>
+cb.join({associationName}, {associationAlias}, {ownerAssociation});
+// join on root model
+cb.join('user', 'u');
+// join on intermediate association
+cb.join('address', 'a', 'user');
+// can be chained!
+cb.join('user', 'u').join('address', 'a', 'user');
+</pre>
+
+<h2>Example</h2>
+<pre>
+var cb = new CriteriaBuilder.Builder({
+    store: mystore
+});
+// add columns
+cb.columns([['orderNumber'],['u.firstName', 'first']]);
+// add joins
+cb.join('user', 'u').join('address', 'a', 'user');
+// run
+cb.query({type:'collection'});
+</pre>

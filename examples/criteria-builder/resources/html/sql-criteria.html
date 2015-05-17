@@ -1,0 +1,61 @@
+<p>You can specify a number custom criteria to apply to the query that will be executed in a SQL-like way:</p>
+<pre>
+SELECT {propertyName}
+WHERE {propertyName} = "somevalue"
+
+SELECT orderNumber
+WHERE orderNumber = "123ABC"
+</pre>
+<p>NOTE: <a href="#">See here</a> for the complete list of criteria.</p>
+
+<h2>Multiple Criteria</h2>
+<p>To add multiple criteria, simply separate each criteria block with an "and":</p>
+<pre>
+SELECT orderNumber
+WHERE orderNumber = "123ABC" AND orderId != 24
+</pre>
+
+<h2>Association Criteria</h2>
+<p>If you want to add criteria based on association fields, you will need to <a href="#sql-join">add a join</a> and use the join alias within the criteria:</p>
+
+<pre>
+SELECT orderNumber
+WHERE orderNumber = "123ABC" AND u.firstName != "Matthew"
+</pre>
+
+<h2>Custom Criteria</h2>
+<p>In addition to the criteria supported out of the box, it's also possible to define your own criteria by registering a custom function with CriteriaBuilder:</p>
+<pre>
+cb.customCriteria('myCustomCriteria', function(data) {
+    return data['a.state'] != 'Iowa';
+});
+</pre>
+<p>The custom function will return a single argument which is a map of the current row's data, keyed by join aliases/field names:</p>
+<pre>
+// data 
+{
+    a.address: "100 West Ontario",
+    _this.orderNumber: 123234324,
+    u.firstName: "Johnny",
+    ...
+}
+</pre>
+<p>Once you've registered the custom criteria function, you can use it in your sql string like so:</p>
+<pre>
+SELECT orderNumber
+WHERE orderNumber = "123ABC" AND {{myCustomCriteria}}
+</pre>
+
+<h2>Example</h2>
+<pre>
+var cb = new CriteriaBuilder.Builder({
+    store: mystore
+});
+var sql = 'select a.address addy, orderId, orderNumber num join user us join address a on user where a.address like "%Avenue%" and {{myCustomCriteria}}';
+// register custom function
+cb.customCriteria('myCustomCriteria', function(data) {
+    return data['a.state'] != 'Iowa';
+});
+// run
+cb.query({sql:sql});
+</pre>

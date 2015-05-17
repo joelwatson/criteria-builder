@@ -4,7 +4,7 @@ Ext.define('CriteriaBuilder.view.sql.Select', {
     title: 'SQL Column Select',
     bodyPadding: 10,
     loader: {
-        url: 'resources/html/sql-select',
+        url: 'resources/html/sql-select.html',
         autoLoad: true
     }
 });

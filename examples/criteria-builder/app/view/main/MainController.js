@@ -11,7 +11,21 @@ Ext.define('CriteriaBuilder.view.main.MainController', {
     alias: 'controller.main',
     routes: {
         'sql-select': 'onContentChange',
-        'sql-join': 'onContentChange'
+        'sql-join': 'onContentChange',
+        'sql-criteria': 'onContentChange',
+        'sql-order': 'onContentChange',
+        'sql-limit': 'onContentChange',
+        'dsl-select': 'onContentChange',
+        'dsl-join': 'onContentChange',
+        'dsl-criteria': 'onContentChange',
+        'dsl-limit': 'onContentChange',
+        'dsl-order': 'onContentChange',
+        'return-collection': 'onContentChange',
+        'return-store': 'onContentChange',
+        'return-filter': 'onContentChange',
+        'example-sql': 'onContentChange',
+        'example-dsl': 'onContentChange',
+        'example-criteria-builder': 'onContentChange'
     },
     onContentChange: function() {
         var token = Ext.util.History.getToken(),
