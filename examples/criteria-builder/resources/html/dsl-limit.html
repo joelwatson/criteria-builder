@@ -1,0 +1,16 @@
+<p>Using CriteriaBuilder, you can limit the size of the result set via the DSL:</p>
+<pre>
+cb.limit({max}, {offset});
+
+cb.limit(10, 5);
+</pre>
+<h2>Example</h2>
+<pre>
+var cb = new CriteriaBuilder.Builder({
+    store: mystore
+});
+// select 10 rows, starting at 5
+cb.limit(10, 5);
+// run
+cb.query();
+</pre>

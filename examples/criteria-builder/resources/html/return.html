@@ -1,0 +1,22 @@
+<p>CriteriaBuilder allows you to return data in 3 different ways:</p>
+<ul>
+    <li>Collection</li>
+    <li>Store</li>
+    <li>Filter</li>
+</ul>
+<h2>Specifying a Return Type</h2>
+<p>You can specify a return type by setting "type" in the options object passed to the query method of CriteriaBuilder:</p>
+<pre>
+var cb = new CriteriaBuilder.Builder({
+    store: mystore
+});
+// use dsl
+...
+// run
+cb.query({
+    type:'collection'
+});
+</pre>
+
+<h2>Collection Type</h2>
+<p>When return type of "collection" is specified, <strong>query()</strong> will return an Ext.util.MixedCollection containing a result set which matches any criteria that was specified. The result set will additionally be sorted and limited based on prior configuration, and will contain only fields specified, fully aliased.</p>

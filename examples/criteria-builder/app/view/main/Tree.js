@@ -54,20 +54,8 @@ Ext.define('CriteriaBuilder.view.main.Tree', {
             }]
         },{
             text: 'Return Types',
-            expanded: true,
-            children:[{
-                text:'Collection',
-                href:'#return-collection',
-                leaf: true
-            },{
-                text:'Store',
-                href:'#return-store',
-                leaf: true
-            },{
-                text:'Filter',
-                href:'#return-filter',
-                leaf: true
-            }]
+            leaf: true,
+            href: '#return'
         },{
             text: 'Live Examples',
             expanded: true,
