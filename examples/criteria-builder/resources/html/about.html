@@ -1,0 +1,48 @@
+<p>CriteriaBuilder allows you to build complex, dynamic queries, via SQL-like syntax or a DSL, that can query any data within an Ext.data.Store, including association data. </p>
+
+<h2>SQL-Like Syntax</h2>
+<p>In this approach, you can create a SQL-like string create a custom query for your data. Using concepts like joins and column aliases, as well as criteria and limits, you can craft a custom string like you would in SQL to craft unique filters and transformations for your data:</p>
+<pre>
+var cb = new CriteriaBuilder.Builder({
+    store: mystore
+});
+var sql = 'select u.lastName, orderId, orderNumber num join user u order by orderDate DESC, u.lastName ASC';
+// run
+cb.query({sql:sql});
+</pre>
+
+<h2>DSL Builder</h2>
+The included DSL allows you to build your queries programmatically, adding joins, criteria, orderings and even limits to create a custom query. Whether defining the criteria in one fell swoop, or building it dynamically based on other criteria, this is the power-user way to define queries.
+<pre>
+var cb = new CriteriaBuilder.Builder({
+    store: mystore
+});
+// add columns
+cb.columns([['orderNumber'],['u.firstName', 'first']]);
+// add join
+cb.join('user', 'u');
+// add order
+cb.order('orderNumber', 'ASC');
+// run
+cb.query({type:'store'});
+</pre>
+
+<h2>Return Types</h2>
+<p>CriteriaBuilder can be configured to return data in several formats:</p>
+<ul>
+    <li>Ext.util.MixedCollection</li>
+    <li>Ext.data.Store</li>
+    <li>Filter existing store based on criteria</li>
+</ul>
+<p>See <a href="#return">Return Types</a> for more information.</p>
+
+<h2>Using in Your Application</h2>
+<p>CriteriaBuilder can be used two ways.</p>
+<p>The first is as a stand-alone utility. Simply configure the CriteriaBuilder instance with the store you'd like to use, and you're on your way.</p>
+<p>The second is by using the included mixin directly on your store. With this mixin, you have access to a few convenience methods:</p>
+<ul>
+    <li>newCriteriaBuilder(): Get a new instance of CriteriaBuilder to work with, automatically bound to your store</li>
+    <li>getCriteriaBuilder(): Return the configured CriteriaBuilder instance</li>
+    <li>queryBySql(sql): Returns a Ext.util.MixedCollection based on the passed SQl-like string</li>
+    <li>filterBySql(sql): Automatically filters the store based on the passed SQL-like string</li>
+</ul>

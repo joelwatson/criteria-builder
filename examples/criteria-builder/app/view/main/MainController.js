@@ -21,6 +21,8 @@ Ext.define('CriteriaBuilder.view.main.MainController', {
         'dsl-limit': 'onContentChange',
         'dsl-order': 'onContentChange',
         'return': 'onContentChange',
+        'about': 'onContentChange',
+        'criteria': 'onContentChange',
         'example-sql': 'onContentChange',
         'example-dsl': 'onContentChange',
         'example-criteria-builder': 'onContentChange'

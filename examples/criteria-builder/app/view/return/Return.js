@@ -1,6 +1,6 @@
 Ext.define('CriteriaBuilder.view.return.Return', {
     extend: 'Ext.panel.Panel',
-    xtype: 'criteriabuilder-view-return-return',
+    xtype: 'criteriabuilder-view-return',
     title: 'SQL Limit',
     bodyPadding: 10,
     loader: {

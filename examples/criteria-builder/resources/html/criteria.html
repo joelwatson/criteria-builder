@@ -1,0 +1,44 @@
+<p>There are several built-in criteria that can be used, either via SQL-like syntax or the DSL, to filter the result set. The currently available criteria are:</p>
+<ul>
+    <li>eq - Property value is equal to criteria value</li>
+    <li>neq - Property value is not equal to criteria value</li>
+    <li>gt - Property value is greater than criteria value</li>
+    <li>gte - Property value is greater than or equal to criteria value</li>
+    <li>lt - Property value is less than property value</li>
+    <li>lte - Property value is less than or equal to criteria value</li>
+    <li>like - Property value is like criteria value</li>
+    <li>not like - Property value is not like criteria value</li>
+    <li>is null - Property value is null or undefined</li>
+    <li>is not null - Property value is not null or not undefined</li>
+    <li>between - Property value is between two criteria values</li>
+</ul>
+
+<h2>Use in SQL-like Approach</h2>
+<ul>
+    <li>u.firstName = "someValue"</li>
+    <li>u.firstName != "someValue"</li>
+    <li>i.quantity &gt; 2</li>
+    <li>i.quantity &gt;= 2</li>
+    <li>i.quantity &lt; 2</li>
+    <li>i.quantity &lt;= 2</li>
+    <li>a.address like "%Ave%"</li>
+    <li>a.address not like "%Ave%"</li>
+    <li>a.address is null</li>
+    <li>a.address is not null</li>
+    <li>orderDate between 2011-01-01,2011-02-01</li>
+</ul>
+
+<h2>Use in DSL Approach</h2>
+<ul>
+    <li>cb.eq('u.firstName', 'someValue')</li>
+    <li>cb.neq('u.firstName', 'someValue')</li>
+    <li>cb.gt('i.quantity', 2)</li>
+    <li>cb.gte('i.quantity', 2)</li>
+    <li>cb.lt('i.quantity', 2)</li>
+    <li>cb.lte('i.quantity', 2)</li>
+    <li>cb.like('a.address', '%Ave%')</li>
+    <li>cb.notlike('a.address', '%Ave%')</li>
+    <li>cb.isnull('a.address')</li>
+    <li>cb.isnotnull('a.address')</li>
+    <li>cb.between('orderDate', '2011-01-01', '2011-02-01')</li>
+</ul>

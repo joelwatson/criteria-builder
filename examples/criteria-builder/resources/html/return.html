@@ -10,7 +10,7 @@
 var cb = new CriteriaBuilder.Builder({
     store: mystore
 });
-// use dsl
+// dsl or sql-like criteria
 ...
 // run
 cb.query({
@@ -20,3 +20,10 @@ cb.query({
 
 <h2>Collection Type</h2>
 <p>When return type of "collection" is specified, <strong>query()</strong> will return an Ext.util.MixedCollection containing a result set which matches any criteria that was specified. The result set will additionally be sorted and limited based on prior configuration, and will contain only fields specified, fully aliased.</p>
+
+<h2>Store Type</h2>
+<p>When return type of "store" is specified, <strong>query()</strong> will return an new Ext.data.Store containing a result set which matches any criteria that was specified. The result set will additionally be sorted and limited based on prior configuration, and will contain only fields specified, fully aliased.</p>
+<p>If fields in the original models have data types defined, the fields in the new store instance will inherit those as well. The one exception is in the case of one-to-many associations, where the data from the "many" side will be an array ("auto" data type).</p>
+
+<h2>Filter Type</h2>
+<p>This is a not a "return" type so much as it is a filter for the store. Basically, the result set created by the CriteriaBuilder query() will be used to filter the original store. However, the "filter" type does still return an array of model instances from the store that match the CriteriaBuilder result set.</p>

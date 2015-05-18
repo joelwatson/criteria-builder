@@ -5,6 +5,10 @@ Ext.define('CriteriaBuilder.view.main.Tree', {
     root: {
         expanded: true,
         children: [{
+            text: 'About CriteriaBuilder',
+            leaf: true,
+            href: '#about'
+        },{
             text: 'SQL Examples',
             expanded: true,
             children:[{
@@ -52,6 +56,10 @@ Ext.define('CriteriaBuilder.view.main.Tree', {
                 href:'#dsl-order',
                 leaf: true
             }]
+        },{
+            text: 'Criteria Types',
+            leaf: true,
+            href: '#criteria'
         },{
             text: 'Return Types',
             leaf: true,
