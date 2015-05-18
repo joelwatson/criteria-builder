@@ -69,7 +69,7 @@ Ext.define('CriteriaBuilder.mixin.SQLParser', {
     determineFields: function(query) {
         var fields = {},
             fieldMatches = query.match(this.fieldRegex),
-            rawFields = fieldMatches.length ? fieldMatches[0].replace(/^select\s/i, '').split(',') : [],
+            rawFields = fieldMatches && fieldMatches.length ? fieldMatches[0].replace(/^select\s/i, '').split(',') : [],
             rawField,nameSection,fieldAlias,fieldName,i;
         
         for(i=0; i<rawFields.length; i++) {

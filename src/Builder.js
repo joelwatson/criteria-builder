@@ -85,7 +85,7 @@ Ext.define('CriteriaBuilder.Builder', {
     },
     constructor: function(config) {
         this.initConfig(config);
-        this.joinMap[this.rootEntity] = this.rootEntity;
+        this.reset();
         this.determineFieldTypes();
         return this;
     },
@@ -448,8 +448,8 @@ Ext.define('CriteriaBuilder.Builder', {
         
         // loop over collection to apply criteria
         collection.each(function(row, index, len) {
-            matches = true;
             for(x in me.criteria) {
+                matches = true;
                 criterion = me.criteria[x];
                 // determine the method that should be executed to evaluate the criterion
                 compareMethod = me.operatorMap[criterion.operator];
@@ -463,6 +463,7 @@ Ext.define('CriteriaBuilder.Builder', {
                     property = matchingKeys[i];
                     if(row.hasOwnProperty(property)) {
                         rowValue = row[property];
+ 
                         switch(criterion.type) {
                             case 'null':
                                 instanceMatch = me[compareMethod](rowValue);
@@ -470,7 +471,7 @@ Ext.define('CriteriaBuilder.Builder', {
                             case 'compare':
                                 queryValue = Ext.isDate(rowValue) ? Ext.Date.parse(criterion.value, 'Y-m-d') : criterion.value;
                                 if(criterion.operator == '=' || criterion.operator == '!=' ) {
-                                    regex = lookupCache['eq' + property] = lookupCache['eq_' + property] || me.buildEqRegex(criterion.value);
+                                    regex = lookupCache['eq_' + property] = lookupCache['eq_' + property] || me.buildEqRegex(criterion.value);
                                     args = [rowValue, regex];
                                 }
                                 else {
@@ -539,7 +540,8 @@ Ext.define('CriteriaBuilder.Builder', {
         var head = value.charAt(0)=='%' ? '' : '^',
             tail = value.charAt(value.length-1)=='%' ? '' : '$',
             regexString = head + value.replace(/%/g, '') + tail;
-    	return new RegExp(regexString, 'gi'); 
+        // don't add 'g' because of dump regex bug
+    	return new RegExp(regexString, 'i'); 
     },
     /**
      * Builds cacheable eq/neq regex based on the passed value
@@ -579,7 +581,6 @@ Ext.define('CriteriaBuilder.Builder', {
     findBetween: function(value, min, max) {
         var min = !Ext.isDate(min) ? Ext.Date.parse(min, 'Y-m-d') : min,
             max = !Ext.isDate(max) ? Ext.Date.parse(max, 'Y-m-d') : max;
-        console.log( min, max, value )
         return value >= min && value <= max;
     },
     /**
@@ -676,6 +677,19 @@ Ext.define('CriteriaBuilder.Builder', {
         return first >= second;
     },
     /**
+     * Resets criteria builder
+     */
+    reset: function() {
+        this.fields = {};
+        this.joins = {};
+        this.criteria = [];
+        this.sorters = [];
+        this.max = 0;
+        this.offset = 0;
+        this.joinMap[this.rootEntity] = this.rootEntity;
+        this.fieldTypeMappings = {};
+    },
+    /**
      * Main method to execute query against store
      * @param {Object} options The options to use when running the query
      * @return {Ext.util.MixedCollection/Ext.data.Store}
@@ -684,10 +698,15 @@ Ext.define('CriteriaBuilder.Builder', {
         var options = Ext.isObject(options) ? options : {},
             query = options.sql || null,
             type = options.type || 'store',
+            reset = options.reset || query ? true : false,
         	collection = this.createCollection(),
             records = this.getStore().getRange(),
             i,range,record,rawDataMap;
 		
+        // if reset, clear out all collections
+        if(reset) {
+            this.reset();
+        }
         // if we have a raw query, we need to parse the strings for each component;
         // with the dsl approach, there's no need
         // but both distill down to a common end, so it should be the same after this is done
@@ -701,12 +720,13 @@ Ext.define('CriteriaBuilder.Builder', {
             rawDataMap['$id'] = record.getId();
             collection.add(rawDataMap['$id'], rawDataMap);
         }
+
         this.processCriteria(collection);
         if(this.sorters.length) {
             collection.sort(this.sorters);
         }
         this.rangeCollection(collection);
-
+        
         switch(type) {
             case 'collection':
                 return this.prepareCollection(collection);

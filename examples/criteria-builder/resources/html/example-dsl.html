@@ -1,0 +1,12 @@
+<p>This example demonstrates using CriteriaBuilder's DSL to query of a data set. In this case, we have an Order, which is made by a User. We'd like to filter this data by orders placed between 2001 and 2012. We also want to sort the result by the User's last name, and limit the result set to 5 records.</p>
+<pre>
+var store = btn.up('grid').getStore(),
+    cb = store.newCriteriaBuilder();
+// use the DSL
+cb.join('user', 'u')
+  .between('orderDate', '2001-01-01', '2012-01-01')
+  .limit(5)
+  .order('u.lastName', 'ASC');
+// run the query
+var data = cb.query({type:'filter'});
+</pre>

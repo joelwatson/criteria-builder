@@ -34,5 +34,23 @@ Ext.define('CriteriaBuilder.view.main.MainController', {
         mainContent.removeAll();
         // now add based on token/xtype
         mainContent.add({xtype:'criteriabuilder-view-' + token});
+    },
+    onSQLFilter: function(btn, e, eOpts) {
+        var store = btn.up('grid').getStore(),
+            sql = 'join user u join address a on user where u.lastName like "R%" and a.address like "%Ave%" order by u.lastName DESC';
+        // clear the filter first
+        store.clearFilter();
+        // run filterBySql
+        store.filterBySql(sql);
+    },
+    onDSLFilter: function(btn, e, eOpts) {
+        var store = btn.up('grid').getStore(),
+            cb = store.newCriteriaBuilder();
+        cb.join('user', 'u')
+          .between('orderDate', '2001-01-01', '2012-01-01')
+          .limit(5)
+          .order('u.lastName', 'ASC');
+        // run the query
+        var data = cb.query({type:'filter'});
     }
 });
