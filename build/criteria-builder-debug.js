@@ -69,7 +69,7 @@ Ext.define('CriteriaBuilder.mixin.SQLParser', {
     determineFields: function(query) {
         var fields = {},
             fieldMatches = query.match(this.fieldRegex),
-            rawFields = fieldMatches.length ? fieldMatches[0].replace(/^select\s/i, '').split(',') : [],
+            rawFields = fieldMatches && fieldMatches.length ? fieldMatches[0].replace(/^select\s/i, '').split(',') : [],
             rawField, nameSection, fieldAlias, fieldName, i;
         for (i = 0; i < rawFields.length; i++) {
             rawField = Ext.String.trim(rawFields[i]).split(/\s/);
@@ -390,7 +390,7 @@ Ext.define('CriteriaBuilder.mixin.DSL', {
     }
 });
 
-Ext.define('CriteriaBuilder.QueryBuilder', {
+Ext.define('CriteriaBuilder.Builder', {
     extend: 'Ext.Base',
     mixins: [
         'CriteriaBuilder.mixin.SQLParser',
@@ -480,7 +480,7 @@ Ext.define('CriteriaBuilder.QueryBuilder', {
     },
     constructor: function(config) {
         this.initConfig(config);
-        this.joinMap[this.rootEntity] = this.rootEntity;
+        this.reset();
         this.determineFieldTypes();
         return this;
     },
@@ -831,8 +831,8 @@ Ext.define('CriteriaBuilder.QueryBuilder', {
             hasCompoundMatchScheme = false;
         // loop over collection to apply criteria
         collection.each(function(row, index, len) {
-            matches = true;
             for (x in me.criteria) {
+                matches = true;
                 criterion = me.criteria[x];
                 // determine the method that should be executed to evaluate the criterion
                 compareMethod = me.operatorMap[criterion.operator];
@@ -853,7 +853,7 @@ Ext.define('CriteriaBuilder.QueryBuilder', {
                             case 'compare':
                                 queryValue = Ext.isDate(rowValue) ? Ext.Date.parse(criterion.value, 'Y-m-d') : criterion.value;
                                 if (criterion.operator == '=' || criterion.operator == '!=') {
-                                    regex = lookupCache['eq' + property] = lookupCache['eq_' + property] || me.buildEqRegex(criterion.value);
+                                    regex = lookupCache['eq_' + property] = lookupCache['eq_' + property] || me.buildEqRegex(criterion.value);
                                     args = [
                                         rowValue,
                                         regex
@@ -936,7 +936,8 @@ Ext.define('CriteriaBuilder.QueryBuilder', {
         var head = value.charAt(0) == '%' ? '' : '^',
             tail = value.charAt(value.length - 1) == '%' ? '' : '$',
             regexString = head + value.replace(/%/g, '') + tail;
-        return new RegExp(regexString, 'gi');
+        // don't add 'g' because of dump regex bug
+        return new RegExp(regexString, 'i');
     },
     /**
      * Builds cacheable eq/neq regex based on the passed value
@@ -976,7 +977,6 @@ Ext.define('CriteriaBuilder.QueryBuilder', {
     findBetween: function(value, min, max) {
         var min = !Ext.isDate(min) ? Ext.Date.parse(min, 'Y-m-d') : min,
             max = !Ext.isDate(max) ? Ext.Date.parse(max, 'Y-m-d') : max;
-        console.log(min, max, value);
         return value >= min && value <= max;
     },
     /**
@@ -1073,6 +1073,19 @@ Ext.define('CriteriaBuilder.QueryBuilder', {
         return first >= second;
     },
     /**
+     * Resets criteria builder
+     */
+    reset: function() {
+        this.fields = {};
+        this.joins = {};
+        this.criteria = [];
+        this.sorters = [];
+        this.max = 0;
+        this.offset = 0;
+        this.joinMap[this.rootEntity] = this.rootEntity;
+        this.fieldTypeMappings = {};
+    },
+    /**
      * Main method to execute query against store
      * @param {Object} options The options to use when running the query
      * @return {Ext.util.MixedCollection/Ext.data.Store}
@@ -1081,9 +1094,14 @@ Ext.define('CriteriaBuilder.QueryBuilder', {
         var options = Ext.isObject(options) ? options : {},
             query = options.sql || null,
             type = options.type || 'store',
+            reset = options.reset || query ? true : false,
             collection = this.createCollection(),
             records = this.getStore().getRange(),
             i, range, record, rawDataMap;
+        // if reset, clear out all collections
+        if (reset) {
+            this.reset();
+        }
         // if we have a raw query, we need to parse the strings for each component;
         // with the dsl approach, there's no need
         // but both distill down to a common end, so it should be the same after this is done
@@ -1112,6 +1130,56 @@ Ext.define('CriteriaBuilder.QueryBuilder', {
             case 'store':
                 return this.createStore(collection);
         }
+    }
+});
+
+Ext.define('CriteriaBuilder.mixin.CriteriaBuilder', {
+    extend: 'Ext.Mixin',
+    requires: [
+        'CriteriaBuilder.Builder'
+    ],
+    mixinConfig: {
+        id: 'criteriabuilder'
+    },
+    /**
+     * Creates a new criteria builder instance and attaches it to the store
+     * @return {CriteriaBuilder.Builder}
+     */
+    newCriteriaBuilder: function() {
+        return this.criteriaBuilder = new CriteriaBuilder.Builder({
+            store: this
+        });
+    },
+    /**
+     * Return criteria builder instance defined on store
+     * @return {CriteriaBuilder.Builder/null}
+     */
+    getCriteriaBuilder: function() {
+        return this.criteriaBuilder || null;
+    },
+    /**
+     * Executes a criteria builder using a SQL statement
+     * @param {String} sql The sql-like string to execute
+     * @return {Ext.util.MixedCollection}
+     */
+    queryBySql: function(sql) {
+        var builder = this.criteriaBuilder || this.newCriteriaBuilder();
+        return builder.query({
+            sql: sql,
+            type: 'collection'
+        });
+    },
+    /**
+     * Filters store using a SQL statement
+     * @param {String} sql The sql-like string to use for a filter
+     * @return {Ext.util.MixedCollection}
+     */
+    filterBySql: function(sql) {
+        var builder = this.criteriaBuilder || this.newCriteriaBuilder();
+        return builder.query({
+            sql: sql,
+            type: 'filter'
+        });
     }
 });
 

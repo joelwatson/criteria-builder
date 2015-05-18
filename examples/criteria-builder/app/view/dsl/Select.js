@@ -1,10 +1,6 @@
 Ext.define('CriteriaBuilder.view.dsl.Select', {
-    extend: 'Ext.panel.Panel',
+    extend: 'CriteriaBuilder.view.Base',
+    loaderUrl: 'resources/html/dsl-select.html',
     xtype: 'criteriabuilder-view-dsl-select',
-    title: 'DSL Column Select',
-    bodyPadding: 10,
-    loader: {
-        url: 'resources/html/dsl-select.html',
-        autoLoad: true
-    }
+    title: 'DSL Column Select'
 });

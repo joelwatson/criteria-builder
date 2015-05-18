@@ -1,7 +1,7 @@
 Ext.define('CriteriaBuilder.view.example.SQL', {
     extend: 'Ext.panel.Panel',
     xtype: 'criteriabuilder-view-example-sql',
-    requires:['CriteriaBuilder.store.Mixin'],
+    requires:['CriteriaBuilder.store.Mixin', 'Ext.grid.Panel'],
     title: 'Example with SQL-like Syntax',
     layout: 'border',
     items:[{

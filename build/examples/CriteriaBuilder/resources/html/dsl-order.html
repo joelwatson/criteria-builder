@@ -1,0 +1,33 @@
+<p>CriteriaBuilder allows you to influence the order of store/collection results via the DSL:</p>
+<pre>
+cb.order({propertyName}, {direction [ASC/DESC]});
+
+cb.order('orderNumber', 'ASC');
+</pre>
+
+<h2>Multiple Order By</h2>
+<p>Multiple sorters can be added by simply adding an additional order via the DSL:</p>
+<pre>
+cb.order('orderNumber', 'ASC');
+cb.order('u.lastName', 'DESC');
+// or just chain them!
+cb.order('orderNumber', 'ASC')
+  .order('u.lastName', 'DESC');
+</pre>
+<p><strong>NOTE:</strong> As with joins and criteria, sorting on association fields will require the inclusion of the join alias in the property name (see above).</p>
+
+<h2>Example</h2>
+<pre>
+var cb = new CriteriaBuilder.Builder({
+    store: mystore
+});
+// add columns
+cb.columns([['orderNumber'],['u.firstName', 'first']]);
+// add join
+cb.join('user', 'u');
+// add order
+cb.order('orderNumber', 'ASC')
+  .order('u.lastName', 'DESC');
+// run
+cb.query({type:'collection'});
+</pre>

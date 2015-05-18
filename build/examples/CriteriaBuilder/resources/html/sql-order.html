@@ -1,0 +1,28 @@
+<p>CriteriaBuilder allows you to influence the order of store/collection results in a very SQL-like way:</p>
+<pre>
+ORDER BY {propertyName} {direction [ASC/DESC]}
+
+SELECT orderNumber
+ORDER BY orderDate DESC
+</pre>
+
+<h2>Multiple Order By</h2>
+<p>Multiple sorters can be added by providing a comma-delimited list of property/direction combinations:</p>
+<pre>
+ORDER BY {propertyName} {direction [ASC/DESC]}, {propertyName} {direction [ASC/DESC]}, ...
+
+SELECT orderNumber
+JOIN user u
+ORDER BY orderDate DESC, u.lastName ASC
+</pre>
+<p><strong>NOTE:</strong> As with joins and criteria, sorting on association fields will require the inclusion of the join alias in the property name (see above).</p>
+
+<h2>Example</h2>
+<pre>
+var cb = new CriteriaBuilder.Builder({
+    store: mystore
+});
+var sql = 'select u.lastName, orderId, orderNumber num join user u order by orderDate DESC, u.lastName ASC';
+// run
+cb.query({sql:sql});
+</pre>

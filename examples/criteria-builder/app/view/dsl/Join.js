@@ -1,10 +1,6 @@
 Ext.define('CriteriaBuilder.view.dsl.Join', {
-    extend: 'Ext.panel.Panel',
+    extend: 'CriteriaBuilder.view.Base',
+    loaderUrl: 'resources/html/dsl-join.html',
     xtype: 'criteriabuilder-view-dsl-join',
-    title: 'DSL Join',
-    bodyPadding: 10,
-    loader: {
-        url: 'resources/html/dsl-join.html',
-        autoLoad: true
-    }
+    title: 'DSL Join'
 });

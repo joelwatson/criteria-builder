@@ -1,0 +1,9 @@
+<p>This example demonstrates a simple SQL-like query of a data set. In this case, we have an Order, which is made by a User, who has an Address. We'd like to filter this data by Users who have a last name which begins with an "R" and whose Address has the fragment "Ave" in it. We also want to sort the result by the User's last name.</p>
+<pre>
+var store = btn.up('grid').getStore(),
+    sql = 'join user u join address a on user where u.lastName like "R%" and a.address like "%Ave%" order by u.lastName DESC';
+// clear the filter first
+store.clearFilter();
+// run filterBySql
+store.filterBySql(sql);
+</pre>

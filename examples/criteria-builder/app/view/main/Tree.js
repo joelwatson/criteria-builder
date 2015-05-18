@@ -1,6 +1,6 @@
 Ext.define('CriteriaBuilder.view.main.Tree', {
     extend: 'Ext.tree.Panel',
-    xtype: 'widget.criteriabuilder-main-tree',
+    xtype: 'criteriabuilder-main-tree',
     rootVisible: false,
     root: {
         expanded: true,
@@ -74,10 +74,6 @@ Ext.define('CriteriaBuilder.view.main.Tree', {
             },{
                 text:'DSL Query',
                 href:'#example-dsl',
-                leaf: true
-            },{
-                text:'Criteria',
-                href:'#example-criteria-builder',
                 leaf: true
             }]
         }]

@@ -1,6 +1,7 @@
 $image-search-path: '/Users/joelwatson/Sites/510workspace/packages/local/criteria-builder/build/resources' !default;
 $theme-name:  'criteria-builder' !default;
-$include-criteriabuilder-querybuilder: true;
+$include-criteriabuilder-builder: true;
+$include-criteriabuilder-mixin-criteriabuilder: true;
 $include-criteriabuilder-mixin-dsl: true;
 $include-criteriabuilder-mixin-sqlparser: true;
 $include-ext-abstractcomponent: false;

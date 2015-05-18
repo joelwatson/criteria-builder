@@ -247,7 +247,7 @@
      *
      */
     "output": {
-        "base": "${workspace.build.dir}/${build.environment}/${app.name}"
+        "base": "../../build/examples/${app.name}"
     },
 
     /**

@@ -33,7 +33,6 @@ Ext.define('CriteriaBuilder.view.main.Main', {
         region: 'center',
         xtype: 'container',
         layout: 'fit',
-        scrollable: true,
         reference: 'main-content-panel'
     }]
 });

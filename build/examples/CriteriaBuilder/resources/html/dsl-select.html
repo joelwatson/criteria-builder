@@ -1,0 +1,43 @@
+<p>CriteriaBuilder allows you produce result sets that limit the data of the current store via the DSL.</p>
+<h2>Single Column</h2>
+<p>To add an individual column, you can use the <strong>column()</strong> method:</p>
+<pre>
+cb.column({propertyName}, {propertyAlias});
+cb.column('firstName', 'myFirstName');
+</pre>
+<p>You can optionally include an alias as the second argument to transform the name of the field.</p>
+<p>If a property you want to include in the result set is from an association of the store's model, you should include the join alias when defining the column inclusion:</p>
+<pre>
+cb.column('a.address', 'addy');
+// can be chained
+cb.column('firstName').column('a.address').(...)
+</pre>
+<p><strong>NOTE:</strong> When using a "select" statement, only "store" and "collection" return results will be affected.</p>
+
+<h2>Multiple Columns</h2>
+<p>If you know before-hand precisely which columns you'd like to include, you can also use the <strong>columns()</strong> method to conveniently add them all at once:</p>
+<pre>
+// as array of arrays
+cb.columns([['orderNumber'],['u.firstName', 'first']])
+// as array of objects
+cb.columns([
+    {
+        name:'orderNumber'
+    },
+    {
+        name:'u.firstName', 
+        alias:'first'
+    }
+]);
+</pre>
+
+<h2>Example</h2>
+<pre>
+var cb = new CriteriaBuilder.Builder({
+    store: mystore
+});
+// add columns
+cb.columns([['orderNumber'],['u.firstName', 'first']])
+// run
+cb.query({type:'collection'});
+</pre>

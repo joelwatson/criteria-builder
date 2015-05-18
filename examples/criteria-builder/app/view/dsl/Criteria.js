@@ -1,10 +1,6 @@
 Ext.define('CriteriaBuilder.view.dsl.Criteria', {
-    extend: 'Ext.panel.Panel',
+    extend: 'CriteriaBuilder.view.Base',
+    loaderUrl: 'resources/html/dsl-criteria.html',
     xtype: 'criteriabuilder-view-dsl-criteria',
-    title: 'DSL Criteria',
-    bodyPadding: 10,
-    loader: {
-        url: 'resources/html/dsl-criteria.html',
-        loadOnRender: true
-    }
+    title: 'DSL Criteria'
 });

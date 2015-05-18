@@ -7,7 +7,6 @@
  */
 Ext.define('CriteriaBuilder.view.main.MainController', {
     extend: 'Ext.app.ViewController',
-    requires: [],
     alias: 'controller.main',
     routes: {
         'sql-select': 'onContentChange',
@@ -26,6 +25,12 @@ Ext.define('CriteriaBuilder.view.main.MainController', {
         'example-sql': 'onContentChange',
         'example-dsl': 'onContentChange',
         'example-criteria-builder': 'onContentChange'
+    },
+    init: function() {
+        var token = Ext.util.History.getToken();
+        if(!token) {
+            this.redirectTo('about');
+        }
     },
     onContentChange: function() {
         var token = Ext.util.History.getToken(),

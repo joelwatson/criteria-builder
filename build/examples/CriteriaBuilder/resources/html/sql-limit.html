@@ -1,0 +1,17 @@
+<p>Using CriteriaBuilder, you can limit the size of the result set in a very SQL-like way:</p>
+<pre>
+LIMIT {max}, {offset}
+
+SELECT orderNumber
+LIMIT 2, 2
+</pre>
+<h2>Example</h2>
+<pre>
+var cb = new CriteriaBuilder.Builder({
+    store: mystore
+});
+// select 10 rows, starting at 5
+var sql = 'select a.address addy, orderId, orderNumber num limit 10, 5';
+// run
+cb.query({sql:sql});
+</pre>

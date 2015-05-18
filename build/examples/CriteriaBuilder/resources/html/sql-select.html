@@ -1,0 +1,21 @@
+<p>CriteriaBuilder allows you produce result sets that limit the data of the current store by providing a SQL-like list of columns.</p>
+<p>Each "column" you want to include can also be "aliased", so if you want to transform the name of the property in the model to something different in the result, simply add an alias like so:</p>
+<pre>
+SELECT {propertyName} {aliasName}
+SELECT address addy
+</pre>
+<p>If a property you want to include in the result set is from an association of the store's model, you should include the join alias when defining the column inclusion:</p>
+<pre>
+SELECT {jonAlias}.{propertyName} {aliasName}
+SELECT a.address addy
+</pre>
+<p><strong>NOTE:</strong> When using a "select" statement, only "store" and "collection" return results will be affected.</p>
+<h2>Example</h2>
+<pre>
+var cb = new CriteriaBuilder.Builder({
+    store: mystore
+});
+var sql = 'select a.address addy, orderId, orderNumber num';
+// run
+cb.query({sql:sql});
+</pre>

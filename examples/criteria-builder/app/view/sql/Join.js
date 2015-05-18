@@ -1,10 +1,6 @@
 Ext.define('CriteriaBuilder.view.sql.Join', {
-    extend: 'Ext.panel.Panel',
+    extend: 'CriteriaBuilder.view.Base',
+    loaderUrl: 'resources/html/sql-join.html',
     xtype: 'criteriabuilder-view-sql-join',
-    title: 'SQL Join',
-    bodyPadding: 10,
-    loader: {
-        url: 'resources/html/sql-join.html',
-        autoLoad: true
-    }
+    title: 'SQL Join'
 });

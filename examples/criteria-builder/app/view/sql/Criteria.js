@@ -1,10 +1,6 @@
 Ext.define('CriteriaBuilder.view.sql.Criteria', {
-    extend: 'Ext.panel.Panel',
+    extend: 'CriteriaBuilder.view.Base',
+    loaderUrl: 'resources/html/sql-criteria.html',
     xtype: 'criteriabuilder-view-sql-criteria',
-    title: 'SQL Criteria',
-    bodyPadding: 10,
-    loader: {
-        url: 'resources/html/sql-criteria.html',
-        loadOnRender: true
-    }
+    title: 'SQL Criteria'
 });

@@ -1,7 +1,7 @@
 Ext.define('CriteriaBuilder.view.example.DSL', {
     extend: 'Ext.panel.Panel',
     xtype: 'criteriabuilder-view-example-dsl',
-    requires:['CriteriaBuilder.store.Mixin'],
+    requires:['CriteriaBuilder.store.Mixin', 'Ext.grid.Panel'],
     title: 'Example with DSL',
     layout: 'border',
     items:[{

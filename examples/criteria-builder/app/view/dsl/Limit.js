@@ -1,10 +1,6 @@
 Ext.define('CriteriaBuilder.view.dsl.Limit', {
-    extend: 'Ext.panel.Panel',
+    extend: 'CriteriaBuilder.view.Base',
+    loaderUrl: 'resources/html/dsl-limit.html',
     xtype: 'criteriabuilder-view-dsl-limit',
-    title: 'DSL Limit',
-    bodyPadding: 10,
-    loader: {
-        url: 'resources/html/dsl-limit.html',
-        autoLoad: true
-    }
+    title: 'DSL Limit'
 });
